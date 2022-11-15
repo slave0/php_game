@@ -89,7 +89,7 @@ class GameController extends Controller
         $player = Player::getInstance();
         $stan = new Stan();
         $stan->setNext( new Fright())->setNext(new Runaway())->setNext(new Hit());
-        return $stan->handle( $player);
+        return $stan->handle( $player->getState());
     }
 
 }

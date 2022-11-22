@@ -16,36 +16,27 @@ use App\State\Tired;
 
 class GameController extends Controller
 {
-
-    public function __construct(SaveService $service)
+    public function index()
     {
-        if (!$service->loadEntities())
-        {
-            $player = Player::getInstance();
-            $player->setHp(rand(10,40));
-            $player->setWay(null);
-            $player->setLevel(1);
-            $player->setDamage(10);
-            $player->setState(new LowHp());
-            $service->saveEntities();
-        }
+        $player = Player::getInstance();
+
+        $way = $player->getWay();
+        $way = last($way);
+
+        return view('welcome', [
+            'playerPosition' => $way,
+            'row' => 8,
+            'column' => 8
+        ]);
     }
+
 
     public function start(SaveService $service)
     {
         return 'Главный герой '. $service->loadEntities();
     }
 
-    public function newGame(SaveService $service)
-    {
-        $player = Player::getInstance();
-        $player->setHp(rand(10,40));
-        $player->setWay(null);
-        $player->setLevel(1);
-        $player->setDamage(10);
-        $player->setState(new LowHp());
-        $service->saveEntities();
-    }
+
 
     public function save(SaveService $service)
     {
@@ -78,11 +69,7 @@ class GameController extends Controller
 
     }
 
-    public function index()
-    {
-        $player = Player::getInstance();
-        return 'level: ' . $player->getLevel() . ' hp: '. $player->getHp();
-    }
+
 
     public function enemy(): string
     {

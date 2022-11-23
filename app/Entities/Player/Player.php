@@ -2,11 +2,13 @@
 
 namespace App\Entities\Player;
 
-use App\Http\Services\Memento;
+use App\Entities\Entity;
+use App\Http\Services\Memento\Memento;
+use App\Http\Services\Memento\MementoPlayer;
 use App\State\State;
 use App\Traits\Singleton;
 
-class Player
+class Player implements Entity
 {
     use Singleton;
 
@@ -108,16 +110,16 @@ class Player
 
     public function save(): Memento
     {
-        return new Memento($this);
+        return new MementoPlayer($this);
     }
 
-    public function load(Memento $mementoPlayer): void
+    public function load(Memento $memento): void
     {
-        $this->hp = $mementoPlayer->getHp();
-        $this->way = $mementoPlayer->getWay();
-        $this->level = $mementoPlayer->getLevel();
-        $this->damage = $mementoPlayer->getDamage();
-        $this->state = $mementoPlayer->getState();
+        $this->hp = $memento->getHp();
+        $this->way = $memento->getWay();
+        $this->level = $memento->getLevel();
+        $this->damage = $memento->getDamage();
+        $this->state = $memento->getState();
     }
 
     public function hit()
@@ -128,5 +130,41 @@ class Player
     public function run()
     {
         return $this->state->run();
+    }
+
+    public function up()
+    {
+        $way = $this->way;
+
+        $row = $way['row'] == 1 ? 1 : $way['row'] - 1;
+
+        $this->way = ['row' => $row, 'column' => $way['column']];
+    }
+
+    public function down()
+    {
+        $way = $this->way;
+
+        $row = $way['row'] == 8 ? 8 : $way['row'] + 1;
+
+        $this->way = ['row' => $row, 'column' => $way['column']];
+    }
+
+    public function left()
+    {
+        $way = $this->way;
+
+        $column = $way['column'] == 1 ? 1 : $way['column'] - 1;
+
+        $this->way = ['row' => $way['row'], 'column' => $column];
+    }
+
+    public function right()
+    {
+        $way = $this->way;
+
+        $column = $way['column'] == 8 ? 8 : $way['column'] + 1;
+
+        $this->way = ['row' => $way['row'], 'column' => $column];
     }
 }

@@ -21,14 +21,12 @@ Route::get('/', function (){
     return view('welcome');
 });
 
-Route::get('/indee', function (){
-    return 2;
+
+Route::prefix('ajax')->group(function () {
+    Route::get('/', [AjaxController::class, 'index']);
+    Route::get('/new-game', [AjaxController::class, 'newGameAjax']);
 });
 
-
-
-
-Route::get('ajax', [AjaxController::class, 'index']);
 
 
 

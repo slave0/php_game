@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -24,17 +25,19 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="{!! asset('css/app.css') !!}?cache=33" type="text/css" />
 </head>
 <body>
 <div class="board">
-@include('board')
+    Игра окончена
+    <button class="btn btn-primary" type="button">Новая игра</button>
 </div>
 <script>
 
 
     $(document).ready(function() {
         $('button').click(function(e) {
-            let url = '/ajax/';
+            let url = '/ajax/new-game';
 
 
 

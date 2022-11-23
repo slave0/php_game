@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Services\Memento;
 
+use App\Entities\Entity;
 use App\Entities\Player\Player;
 use App\State\State;
 
-class Memento
+class MementoPlayer implements Memento
 {
     protected int $hp;
     protected int $level;
@@ -13,7 +14,7 @@ class Memento
     protected State $state;
     protected float|int $damage;
 
-    public function __construct(Player $player)
+    public function __construct(Entity|Player $player)
     {
         $this->hp = $player->getHp();
         $this->level = $player->getLevel();

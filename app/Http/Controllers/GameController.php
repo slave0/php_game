@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\Enemy\Ogr;
 use App\Entities\Player\Player;
 use App\Handler\Fright;
 use App\Handler\Hit;
@@ -21,12 +22,14 @@ class GameController extends Controller
         $player = Player::getInstance();
 
         $way = $player->getWay();
-        $way = last($way);
 
         return view('welcome', [
             'playerPosition' => $way,
+            'hp' => $player->getHp(),
+            'damage' => $player->getDamage(),
             'row' => 8,
-            'column' => 8
+            'column' => 8,
+            'enemy' => Ogr::getInstance()
         ]);
     }
 
@@ -78,5 +81,6 @@ class GameController extends Controller
         $stan->setNext( new Fright())->setNext(new Runaway())->setNext(new Hit());
         return $stan->handle( $player->getState());
     }
+
 
 }

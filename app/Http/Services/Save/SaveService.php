@@ -2,9 +2,11 @@
 
 namespace App\Http\Services\Save;
 
+use App\Entities\Enemy\Ogr;
 use App\Entities\Player\Player;
-use App\Http\Services\CaretakerPlayer;
+use App\Http\Services\Caretaker;
 use App\Http\Services\SaveList;
+use App\State\Berserk;
 use Illuminate\Support\Facades\Storage;
 
 class SaveService
@@ -13,8 +15,13 @@ class SaveService
     {
         $player = Player::getInstance();
 
-        $caretaker = new CaretakerPlayer($player);
-        $save = serialize($caretaker->save());
+        $caretaker = new Caretaker($player);
+
+        $ogr = Ogr::getInstance();
+
+        $caretakerEnemy = new Caretaker($ogr);
+
+        $save = serialize(['player' => $caretaker->save(), 'enemy' => $caretakerEnemy->save()]);
 
         Storage::append('entities.txt', '%%'.$save);
     }
@@ -28,15 +35,25 @@ class SaveService
         }
 
         $player = Player::getInstance();
-        $caretaker = new CaretakerPlayer($player);
-        $caretaker->load($saves, array_key_last($saves));
+        $caretaker = new Caretaker($player);
+
+
+        $caretaker->load($saves['player']);
+
+        $ogr = Ogr::getInstance();
+
+        $caretakerEnemy = new Caretaker($ogr);
+        $caretakerEnemy->load($saves['enemy']);
+
+
+
         return 'level: ' . $player->getLevel() . ' hp: '. $player->getHp();
     }
 
     public function save()
     {
         $player = Player::getInstance();
-        $caretaker = new CaretakerPlayer($player);
+        $caretaker = new Caretaker($player);
         $save = serialize($caretaker->save());
 
         return Storage::append('save.txt', '%%'.$save) ? 'Игра сохранена' : 'Ошибка';
@@ -59,7 +76,7 @@ class SaveService
         $saves = $this->getSaves();
 
         $player = Player::getInstance();
-        $caretaker = new CaretakerPlayer($player);
+        $caretaker = new Caretaker($player);
         $caretaker->load($saves, $id-1);
         echo 'level: ' . $player->getLevel() . ' hp: '. $player->getHp();
     }

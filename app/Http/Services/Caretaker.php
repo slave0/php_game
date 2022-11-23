@@ -2,9 +2,9 @@
 
 namespace App\Http\Services;
 
-use App\Entities\Player\Player;
+use App\Entities\Entity;
 
-class CaretakerPlayer
+class Caretaker
 {
     /**
      * @var array
@@ -12,19 +12,19 @@ class CaretakerPlayer
     private array $mementos = [];
 
     /**
-     * @var Player
+     * @var Entity
      */
-    private $player;
+    private Entity $entity;
 
-    public function __construct(Player $player)
+    public function __construct(Entity $entity)
     {
-        $this->player = $player;
+        $this->entity = $entity;
     }
 
 
     public function save(): array
     {
-        $this->mementos[] = $this->player->save();
+        $this->mementos[] = $this->entity->save();
         return $this->mementos;
     }
 
@@ -36,12 +36,12 @@ class CaretakerPlayer
 
         $memento = array_pop($this->mementos);
 
-        $this->player->load($memento);
+        $this->entity->load($memento);
     }
 
-    public function load(array $mementos, int $id): void
+    public function load(array $mementos, int $id = 0): void
     {
         $this->mementos = $mementos;
-        $this->player->load($mementos[$id]);
+        $this->entity->load($mementos[$id]);
     }
 }

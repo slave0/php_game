@@ -12,7 +12,7 @@ class GameController extends Controller
 
     public function index(): Factory|View|Application
     {
-        return view('index');
+        return view('web/start');
     }
     public function start()
     {

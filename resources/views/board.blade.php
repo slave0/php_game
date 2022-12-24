@@ -1,9 +1,4 @@
 
-<div>
-    HP: {{$hp}}
-    <br>
-    Урон: {{$damage}}
-</div>
 <div class="container">
     <div class="row">
         <div class="col-md-8">
@@ -22,24 +17,6 @@
                         <th scope="col">8</th>
                     </tr>
                     <tbody>
-                    @php
-
-                        for ($i = 1; $i <= $row; $i++) {
-                            echo '<tr><th>'. $i .'</th>';
-                            for ($j = 1; $j <= $column; $j++) {
-                            echo '<td>';
-                            if ($playerPosition['row'] == $i && $playerPosition['column'] == $j) {
-                                echo 'P ';
-                            }
-                            if ($enemy->getRow() == $i && $enemy->getColumn() == $j) {
-                                echo 'EO';
-                            }
-                            echo '</td>';
-                            }
-                            echo '</tr>';
-                        }
-                    @endphp
-
                     </tbody>
                 </table>
             </div>

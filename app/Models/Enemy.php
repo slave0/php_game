@@ -1,13 +1,33 @@
 <?php
 
-namespace App\Entities\Enemy;
+namespace App\Models;
 
-class Enemy
+/**
+ * @property int $id
+ * @property string $type
+ * @property string $name
+ * @property int $hp
+ * @property int $damage
+ */
+class Enemy extends Model
 {
-    protected string $type;
-    protected string $name;
-    protected int $hp;
-    protected int $damage;
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     * @return Enemy
+     */
+    public function setId(int $id): Enemy
+    {
+        $this->id = $id;
+        return $this;
+    }
 
     /**
      * @return string

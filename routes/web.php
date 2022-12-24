@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\GameController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,41 +15,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/index', [GameController::class, 'index']);
-
-Route::get('/', function (){
-    return view('welcome');
-});
-
-
-Route::prefix('ajax')->group(function () {
-    Route::get('/', [AjaxController::class, 'index']);
-    Route::get('/new-game', [AjaxController::class, 'newGameAjax']);
-});
-
-
-
-
-
-
-
-Route::get('/start', [GameController::class, 'start']);
-
-Route::get('/new-game', [GameController::class, 'newGame']);
-
-
-Route::get('/enemy', [GameController::class, 'enemy']);
-
-Route::get('/state/{state}', [GameController::class, 'state']);
-
-Route::get('/save', [GameController::class, 'save']);
-
-Route::get('/load/{id}', [GameController::class, 'load']);
-
-Route::get('/list-save', [GameController::class, 'listSave']);
-
-
-
-
-
-
+Route::get('/', [GameController::class, 'index']);

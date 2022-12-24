@@ -1,18 +1,16 @@
 <?php
 
-namespace App\Entities\Player;
+namespace App\Models;
 
-use App\Traits\Singleton;
-
-class Player
+/**
+ * @property int $hp
+ * @property int $level
+ * @property int $exp
+ * @property int $damage
+ * @property string $state
+ */
+class Player extends Model
 {
-    use Singleton;
-
-    protected int $hp;
-    protected int $level;
-    protected mixed $damage;
-    protected int $exp;
-
     /**
      * @return int
      */
@@ -50,24 +48,6 @@ class Player
     }
 
     /**
-     * @return mixed
-     */
-    public function getDamage(): mixed
-    {
-        return $this->damage;
-    }
-
-    /**
-     * @param mixed $damage
-     * @return Player
-     */
-    public function setDamage(mixed $damage): Player
-    {
-        $this->damage = $damage;
-        return $this;
-    }
-
-    /**
      * @return int
      */
     public function getExp(): int
@@ -82,6 +62,42 @@ class Player
     public function setExp(int $exp): Player
     {
         $this->exp = $exp;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDamage(): int
+    {
+        return $this->damage;
+    }
+
+    /**
+     * @param int $damage
+     * @return Player
+     */
+    public function setDamage(int $damage): Player
+    {
+        $this->damage = $damage;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getState(): string
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param string $state
+     * @return Player
+     */
+    public function setState(string $state): Player
+    {
+        $this->state = $state;
         return $this;
     }
 }

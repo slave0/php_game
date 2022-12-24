@@ -2,85 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Enemy\Ogr;
-use App\Entities\Player\Player;
-use App\Handler\Fright;
-use App\Handler\Hit;
-use App\Handler\Runaway;
-use App\Handler\Stan;
-use App\Http\Services\Save\SaveService;
-use App\State\Berserk;
-use App\State\FullHp;
-use App\State\LowHp;
-use App\State\Tired;
-
+use App\Http\Services\GameService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 
 class GameController extends Controller
 {
-    public function index()
+
+    public function index(): Factory|View|Application
     {
-        $player = Player::getInstance();
-
-        $way = $player->getWay();
-
-        return view('welcome', [
-            'playerPosition' => $way,
-            'hp' => $player->getHp(),
-            'damage' => $player->getDamage(),
-            'row' => 8,
-            'column' => 8,
-            'enemy' => Ogr::getInstance()
-        ]);
+        return view('index');
     }
-
-
-    public function start(SaveService $service)
+    public function start()
     {
-        return 'Главный герой '. $service->loadEntities();
-    }
-
-
-
-    public function save(SaveService $service)
-    {
-        return $service->save();
-    }
-
-    public function listSave(SaveService $service)
-    {
-        $service->listSave();
-    }
-
-    public function load(int $id, SaveService $service)
-    {
-
-        $service->load($id);
-    }
-
-    public function state(string $state, SaveService $service)
-    {
-        $player = Player::getInstance();
-
-        match ($state) {
-            'berserk' => $player->setState(new Berserk()),
-            'fullHp' => $player->setState(new FullHp()),
-            'lowHp' => $player->setState(new LowHp()),
-            'tired' => $player->setState(new Tired()),
-        };
-
-        $service->saveEntities();
 
     }
 
-
-
-    public function enemy(): string
+    public function save()
     {
-        $player = Player::getInstance();
-        $stan = new Stan();
-        $stan->setNext( new Fright())->setNext(new Runaway())->setNext(new Hit());
-        return $stan->handle( $player->getState());
+
     }
 
+    public function getSaves()
+    {
 
+    }
+
+    public function load()
+    {
+
+    }
 }

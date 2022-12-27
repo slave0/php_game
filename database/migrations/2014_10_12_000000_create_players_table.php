@@ -14,11 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('players', function (Blueprint $table) {
+            $table->id();
             $table->integer('hp');
-            $table->integer('level');
-            $table->integer('exp');
+            $table->integer('level')->default(1);
+            $table->integer('exp')->default(0);
             $table->integer('damage');
-            $table->string('state');
+            $table->string('state')->nullable();
+            $table->timestamps();
         });
     }
 

@@ -5,12 +5,16 @@ namespace App\Models;
 /**
  * @property int $id
  * @property string $type
- * @property string $name
  * @property int $hp
  * @property int $damage
  */
 class Enemy extends Model
 {
+    public function boardPosition()
+    {
+        return $this->morphOne(BoardPosition::class, 'entity');
+    }
+
     /**
      * @return int
      */
@@ -44,24 +48,6 @@ class Enemy extends Model
     public function setType(string $type): Enemy
     {
         $this->type = $type;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     * @return Enemy
-     */
-    public function setName(string $name): Enemy
-    {
-        $this->name = $name;
         return $this;
     }
 

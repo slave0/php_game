@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('boards', function (Blueprint $table) {
             $table->integer('height');
             $table->integer('width');
+            $table->timestamps();
         });
     }
 

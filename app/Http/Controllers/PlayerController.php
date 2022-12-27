@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Player\ActionRequest;
+use App\Http\Services\Player\PlayerService;
+
 class PlayerController extends Controller
 {
-    public function action()
+    public function move(ActionRequest $request, PlayerService $service)
     {
-
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\PlayerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [GameController::class, 'index']);
+
+Route::get('/game', [GameController::class, 'start']);
+
+Route::post('/move', [PlayerController::class]);

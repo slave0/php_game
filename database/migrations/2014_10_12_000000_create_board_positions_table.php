@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('enemies', function (Blueprint $table) {
+        Schema::create('board_positions', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
-            $table->integer('hp');
-            $table->integer('damage');
+            $table->integer('entity_id');
+            $table->string('entity_type');
+            $table->integer('width');
+            $table->integer('height');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('enemies');
+        Schema::dropIfExists('board_positions');
     }
 };

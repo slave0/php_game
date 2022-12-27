@@ -3,6 +3,7 @@
 namespace App\Models;
 
 /**
+ * @property int $id
  * @property int $hp
  * @property int $level
  * @property int $exp
@@ -11,6 +12,29 @@ namespace App\Models;
  */
 class Player extends Model
 {
+    public function boardPosition()
+    {
+        return $this->morphOne(BoardPosition::class, 'entity');
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     * @return Player
+     */
+    public function setId(int $id): Player
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     /**
      * @return int
      */

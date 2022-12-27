@@ -4,7 +4,7 @@ namespace App\Models;
 
 /**
  * @property int $height
- * @property int $weight
+ * @property int $width
  */
 class Board extends Model
 {
@@ -29,18 +29,18 @@ class Board extends Model
     /**
      * @return int
      */
-    public function getWeight(): int
+    public function getWidth(): int
     {
-        return $this->weight;
+        return $this->width;
     }
 
     /**
-     * @param int $weight
+     * @param int $width
      * @return Board
      */
-    public function setWeight(int $weight): Board
+    public function setWidth(int $width): Board
     {
-        $this->weight = $weight;
+        $this->width = $width;
         return $this;
     }
 }

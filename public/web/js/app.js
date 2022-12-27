@@ -6,9 +6,8 @@ try {
 } catch (e) {}
 
 function ajax(url, method, data, elem_class) {
-            var btn = $(this);
             $.ajax({
-                method: "GET",
+                method: method,
                 url: url,
                 dataType: "json",
                 data: data,
@@ -47,7 +46,7 @@ class Action {
             "action": this.event_name,
         };
         let elem_class = ".board-info";
-        return ajax(url, method, data, elem_class);
+        return ajax(url ,method, data, elem_class);
     }
 
 

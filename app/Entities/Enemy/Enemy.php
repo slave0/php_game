@@ -18,12 +18,31 @@ class Enemy
         self::TYPE_PANGOLIN
     ];
 
+    protected int $id;
     protected string $type;
     protected string $name;
     protected int $hp;
     protected int $damage;
     protected int $positionWidth;
     protected int $positionHeight;
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     * @return Enemy
+     */
+    public function setId(int $id): Enemy
+    {
+        $this->id = $id;
+        return $this;
+    }
 
     /**
      * @return string

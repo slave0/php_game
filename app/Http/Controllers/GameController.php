@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Entities\Board\Board;
+use App\Entities\Enemy\ListEnemies;
 use App\Entities\Player\Player;
 use App\Http\Services\Game\GameService;
 use App\Http\Services\Game\NewGame;
@@ -17,17 +18,15 @@ class GameController extends Controller
     {
         return view('game/start');
     }
-    public function start(NewGame $game, GameService $service)
-    {
-        $player = Player::getInstance();
-        $board = Board::getInstance();
-        $enemies = $service->getEnemies();
 
-        return view('game/board', [
-            'player' => $player,
-            'board' => $board,
-            'enemies' => $enemies
-        ]);
+    /**
+     * @param NewGame $game
+     * @param GameService $service
+     * @return View|Factory|Application|null
+     */
+    public function start(NewGame $game, GameService $service): View|Factory|Application|null
+    {
+        return $service->getEntities();
     }
 
     public function save()

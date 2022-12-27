@@ -2,18 +2,46 @@
 
 namespace App\Http\Services\Game;
 
+use App\Entities\Enemy\ListEnemies;
 use App\Entities\Player\Player;
 use App\Models\Board;
 use App\Models\BoardPosition;
 use App\Models\Enemy;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 
 class GameService
 {
-
     public function __construct()
     {
         $this->getPlayer();
         $this->getBoard();
+        $this->getEnemies();
+    }
+
+    /**
+     * @return Factory|View|Application
+     */
+    public function getEntities(): Factory|View|Application
+    {
+        $player = Player::getInstance();
+        $board = \App\Entities\Board\Board::getInstance();
+        $enemies = ListEnemies::getInstance()->getEnemies();
+
+        return view('game/board', [
+            'player' => $player,
+            'board' => $board,
+            'enemies' => $enemies
+        ]);
+    }
+
+    /**
+     * @return GameService
+     */
+    public static function index(): GameService
+    {
+        return new self();
     }
 
     protected function getPlayer(): void
@@ -43,15 +71,16 @@ class GameService
     }
 
     /**
-     * @return array
+     * @return void
      */
-    public function getEnemies(): array
+    protected function getEnemies(): void
     {
-        return Enemy::query()->get()->map(function (Enemy $enemy) {
+        $enemies = Enemy::query()->get()->map(function (Enemy $enemy) {
             /** @var BoardPosition $position */
             $position = $enemy->boardPosition()->get()->first();
 
             return (new \App\Entities\Enemy\Enemy())
+                ->setId($enemy->getId())
                 ->setType($enemy->getType())
                 ->setHp($enemy->getHp())
                 ->setDamage($enemy->getDamage())
@@ -59,5 +88,7 @@ class GameService
                 ->setPositionHeight($position->getHeight());
 
         })->toArray();
+
+        ListEnemies::getInstance()->setEnemies($enemies);
     }
 }

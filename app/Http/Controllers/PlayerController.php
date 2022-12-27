@@ -9,5 +9,6 @@ class PlayerController extends Controller
 {
     public function move(ActionRequest $request, PlayerService $service)
     {
+        $service->action(__FUNCTION__, $request->getAction());
     }
 }

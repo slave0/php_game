@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+
 /**
  * @property int $id
  * @property int $hp
@@ -9,12 +11,21 @@ namespace App\Models;
  * @property int $exp
  * @property int $damage
  * @property string $state
+ * @property-read BoardPosition $boardPosition
  */
 class Player extends Model
 {
-    public function boardPosition()
+    public function boardPosition(): MorphOne
     {
         return $this->morphOne(BoardPosition::class, 'entity');
+    }
+
+    /**
+     * @return BoardPosition
+     */
+    public function getBoardPosition(): BoardPosition
+    {
+        return $this->boardPosition;
     }
 
     /**

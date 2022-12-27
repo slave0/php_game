@@ -17,10 +17,10 @@
                         <table class="table table-bordered board">
                             <tbody>
 
-                            @for($i = 1; $i <= $board->getWidth(); $i++)
+                            @for($i = 1; $i <= $board->getHeight(); $i++)
                                 <tr>
 
-                                    @for($j = 1; $j <= $board->getHeight(); $j++)
+                                    @for($j = 1; $j <= $board->getWidth(); $j++)
 
                                         @php
                                             $class = '';
@@ -28,7 +28,7 @@
                                         @endphp
 
 
-                                        @if($player->getPositionWidth() == $i && $player->getPositionHeight() == $j)
+                                        @if($player->getPositionWidth() == $j && $player->getPositionHeight() == $i)
 
                                             @php
                                                 $class = 'player';
@@ -39,7 +39,7 @@
 
                                         @foreach($enemies as $enemy)
 
-                                            @if($enemy->getPositionWidth() == $i && $enemy->getPositionHeight() == $j)
+                                            @if($enemy->getPositionWidth() == $j && $enemy->getPositionHeight() == $i)
 
                                                 @php
                                                     $class = 'enemy';

@@ -7,12 +7,21 @@ namespace App\Models;
  * @property string $type
  * @property int $hp
  * @property int $damage
+ * @property-read BoardPosition $boardPosition
  */
 class Enemy extends Model
 {
     public function boardPosition()
     {
         return $this->morphOne(BoardPosition::class, 'entity');
+    }
+
+    /**
+     * @return BoardPosition
+     */
+    public function getBoardPosition(): BoardPosition
+    {
+        return $this->boardPosition;
     }
 
     /**

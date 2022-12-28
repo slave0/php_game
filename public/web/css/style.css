@@ -18,10 +18,6 @@ body {
     background: #FFFACD;
 }
 
-.control-panel {
-    border:1px solid black;
-}
-
 .player {
     background: #1a202c;
 }
@@ -36,6 +32,6 @@ body {
 
 .board-elem {
     width: 100px;
-    height: 50px;
+    height: 60px;
     text-align: center;
 }

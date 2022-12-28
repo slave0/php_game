@@ -7,6 +7,7 @@ use App\Entities\Enemy\ListEnemies;
 use App\Entities\Player\Player;
 use App\Http\Services\Game\GameService;
 use App\Http\Services\Game\NewGame;
+use App\Http\Services\Game\ViewGameService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -22,11 +23,11 @@ class GameController extends Controller
     /**
      * @param NewGame $game
      * @param GameService $service
-     * @return View|Factory|Application|null
+     * @return View|Factory|Application
      */
-    public function start(NewGame $game, GameService $service): View|Factory|Application|null
+    public function start(NewGame $game, GameService $service): View|Factory|Application
     {
-        return $service->getEntities();
+        return ViewGameService::getViewGame();
     }
 
     public function save()

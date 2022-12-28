@@ -4,6 +4,7 @@ namespace App\Http\Services\Player;
 
 use App\Http\Services\Game\GameService;
 use App\Http\Services\Game\SaveEntities;
+use App\Http\Services\Game\ViewGameService;
 use App\Http\Services\Player\Commands\Down;
 use App\Http\Services\Player\Commands\Left;
 use App\Http\Services\Player\Commands\MoveCommand;
@@ -40,10 +41,16 @@ class PlayerService
         $command->execute();
     }
 
-    public function action($action, $command)
+    /**
+     * @param $action
+     * @param $command
+     * @return string
+     */
+    public function action($action, $command): string
     {
         $this->{$action}($command);
         SaveEntities::execute();
+        return ViewGameService::getViewBoard();
     }
 
 

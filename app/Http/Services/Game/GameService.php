@@ -21,22 +21,6 @@ class GameService
     }
 
     /**
-     * @return Factory|View|Application
-     */
-    public function getEntities(): Factory|View|Application
-    {
-        $player = Player::getInstance();
-        $board = \App\Entities\Board\Board::getInstance();
-        $enemies = ListEnemies::getInstance()->getEnemies();
-
-        return view('game/board', [
-            'player' => $player,
-            'board' => $board,
-            'enemies' => $enemies
-        ]);
-    }
-
-    /**
      * @return GameService
      */
     public static function index(): GameService

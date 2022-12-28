@@ -21,4 +21,8 @@ Route::get('/game', [GameController::class, 'start']);
 
 Route::post('/move', [PlayerController::class, 'move']);
 
+Route::post('/a', function () {
+    return 1;
+});
+
 

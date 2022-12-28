@@ -1,20 +1,11 @@
 
-try {
-    window.$ = window.jQuery = require('jquery');
-
-    require('bootstrap-sass');
-} catch (e) {}
-
 function ajax(url, method, data, elem_class) {
             $.ajax({
-                method: method,
                 url: url,
-                dataType: "json",
+                method: method,
                 data: data,
-                /*{
-                    "name": btn.attr('name'),
-                },*/
                 success: function(html) {
+                    console.log(1);
                     $(elem_class).html(html);
                 },
                 error: function(er) {
@@ -41,11 +32,11 @@ class Action {
 
     move() {
         let url = '/move';
-        let method = "POST";
+        let method = "post";
         let data = {
             "action": this.event_name,
         };
-        let elem_class = ".board-info";
+        let elem_class = ".game-info";
         return ajax(url ,method, data, elem_class);
     }
 

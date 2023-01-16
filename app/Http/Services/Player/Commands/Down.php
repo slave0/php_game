@@ -8,11 +8,11 @@ class Down extends MoveCommand
 {
     protected function move()
     {
-        $this->player->setPositionHeight($this->player->getPositionHeight() + 1);
+        $this->entity->down();
     }
 
     protected function checkPosition(): bool
     {
-        return !($this->player->getPositionHeight() == $this->board->getHeight());
+        return !($this->entity->getPositionHeight() == $this->board->getHeight());
     }
 }

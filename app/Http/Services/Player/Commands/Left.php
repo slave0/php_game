@@ -2,15 +2,17 @@
 
 namespace App\Http\Services\Player\Commands;
 
+use App\Entities\Board\Board;
+
 class Left extends MoveCommand
 {
     protected function move()
     {
-        $this->player->setPositionWidth($this->player->getPositionWidth() - 1);
+        $this->entity->left();
     }
 
     protected function checkPosition(): bool
     {
-        return $this->player->getPositionWidth() > 1;
+        return $this->entity->getPositionWidth() > Board::MINIMUM_COORDINATE;
     }
 }

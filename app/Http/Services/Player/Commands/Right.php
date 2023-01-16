@@ -6,11 +6,11 @@ class Right extends MoveCommand
 {
     protected function move()
     {
-        $this->player->setPositionWidth($this->player->getPositionWidth() + 1);
+        $this->entity->right();
     }
 
     protected function checkPosition(): bool
     {
-        return !($this->player->getPositionWidth() == $this->board->getWidth());
+        return !($this->entity->getPositionWidth() == $this->board->getWidth());
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Entities\Enemy;
 
-class Enemy
+use App\Http\Interfaces\Entity;
+
+class Enemy implements Entity
 {
     const TYPE_OGR = 'Огр';
     const TYPE_MAG = 'Маг';
@@ -150,5 +152,37 @@ class Enemy
     {
         $this->positionHeight = $positionHeight;
         return $this;
+    }
+
+    /**
+     * @return void
+     */
+    public function up(): void
+    {
+        $this->setPositionHeight($this->getPositionHeight() - 1);
+    }
+
+    /**
+     * @return void
+     */
+    public function left(): void
+    {
+        $this->setPositionWidth($this->getPositionWidth() - 1);
+    }
+
+    /**
+     * @return void
+     */
+    public function right(): void
+    {
+        $this->setPositionWidth($this->getPositionWidth() + 1);
+    }
+
+    /**
+     * @return void
+     */
+    public function down(): void
+    {
+        $this->setPositionHeight($this->getPositionHeight() + 1);
     }
 }

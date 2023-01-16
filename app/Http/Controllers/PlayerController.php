@@ -7,7 +7,12 @@ use App\Http\Services\Player\PlayerService;
 
 class PlayerController extends Controller
 {
-    public function move(ActionRequest $request, PlayerService $service)
+    /**
+     * @param ActionRequest $request
+     * @param PlayerService $service
+     * @return string
+     */
+    public function move(ActionRequest $request, PlayerService $service): string
     {
         return $service->action(__FUNCTION__, $request->getAction());
     }

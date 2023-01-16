@@ -2,9 +2,10 @@
 
 namespace App\Entities\Player;
 
+use App\Http\Interfaces\Entity;
 use App\Traits\Singleton;
 
-class Player
+class Player implements Entity
 {
     use Singleton;
 
@@ -128,5 +129,37 @@ class Player
     {
         $this->positionHeight = $positionHeight;
         return $this;
+    }
+
+    /**
+     * @return void
+     */
+    public function up(): void
+    {
+        $this->setPositionHeight($this->getPositionHeight() - 1);
+    }
+
+    /**
+     * @return void
+     */
+    public function left(): void
+    {
+        $this->setPositionWidth($this->getPositionWidth() - 1);
+    }
+
+    /**
+     * @return void
+     */
+    public function right(): void
+    {
+        $this->setPositionWidth($this->getPositionWidth() + 1);
+    }
+
+    /**
+     * @return void
+     */
+    public function down(): void
+    {
+        $this->setPositionHeight($this->getPositionHeight() + 1);
     }
 }

@@ -3,18 +3,18 @@
 namespace App\Http\Services\Player\Commands;
 
 use App\Entities\Board\Board;
-use App\Entities\Player\Player;
+use App\Http\Interfaces\Entity;
 
 abstract class MoveCommand
 {
 
-    protected Player $player;
+    protected Entity $entity;
     protected Board $board;
 
-    public function __construct()
+    public function __construct(Entity $entity)
     {
         $this->board = Board::getInstance();
-        $this->player = Player::getInstance();
+        $this->entity = $entity;
     }
 
     /**

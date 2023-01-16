@@ -7,9 +7,6 @@ use App\Entities\Player\Player;
 use App\Models\Board;
 use App\Models\BoardPosition;
 use App\Models\Enemy;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 
 class GameService
 {

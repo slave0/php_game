@@ -8,6 +8,8 @@ class Board
 {
     use Singleton;
 
+    public const MINIMUM_COORDINATE =1;
+
     protected int $width;
     protected int $height;
 

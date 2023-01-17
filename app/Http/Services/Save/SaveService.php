@@ -5,14 +5,14 @@ namespace App\Http\Services\Save;
 
 
 use App\Entities\Board\Board;
+use App\Entities\Enemy\Enemy;
 use App\Entities\Enemy\ListEnemies;
 use App\Entities\Player\Player;
-use App\Http\Services\Memento\MementoBoard;
-use App\Http\Services\Memento\MementoEnemy;
-use App\Http\Services\Memento\MementoPlayer;
-use App\Models\Save\Save;
-use App\Models\Save\SaveEnemy;
-use App\Models\Save\SavePlayer;
+use App\Models\BoardPosition;
+use App\Models\Save\BoardPositionSave;
+use App\Models\Save\GameSave;
+use App\Models\Save\EnemySave;
+use App\Models\Save\PlayerSave;
 use App\Traits\ErrorMessage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -33,6 +33,7 @@ class SaveService
             $saveId = $this->saveBoard();
             $this->savePlayer($saveId);
             $this->saveEnemies($saveId);
+            $this->saveBoardPosition($saveId);
 
         } catch (\Exception $ex) {
             DB::rollBack();
@@ -55,14 +56,9 @@ class SaveService
     {
         $board = Board::getInstance();
 
-        $caretaker = new Caretaker($board);
-
-        /** @var MementoBoard $boardSave */
-        $boardSave = $caretaker->save();
-
-        $save = (new Save())
-            ->setBoardHeight($boardSave->getHeight())
-            ->setBoardWidth($boardSave->getWidth());
+        $save = (new GameSave())
+            ->setBoardHeight($board->getHeight())
+            ->setBoardWidth($board->getWidth());
 
         $save->save();
 
@@ -76,19 +72,14 @@ class SaveService
     {
         $player = Player::getInstance();
 
-        $caretaker = new Caretaker($player);
-
-        /** @var MementoPlayer $playerSave */
-        $playerSave = $caretaker->save();
-
-        (new SavePlayer)
-            ->setHp($playerSave->getHp())
-            ->setLevel($playerSave->getLevel())
-            ->setDamage($playerSave->getDamage())
-            ->setExp($playerSave->getExp())
-            ->setPositionHeight($playerSave->getPositionHeight())
-            ->setPositionWidth($playerSave->getPositionWidth())
-            ->setSaveId($saveId)
+        (new PlayerSave)
+            ->setHp($player->getHp())
+            ->setLevel($player->getLevel())
+            ->setDamage($player->getDamage())
+            ->setExp($player->getExp())
+            ->setPositionHeight($player->getPositionHeight())
+            ->setPositionWidth($player->getPositionWidth())
+            ->setGameSaveId($saveId)
             ->save();
     }
 
@@ -99,21 +90,65 @@ class SaveService
     {
         $enemies = ListEnemies::getInstance();
 
+        /** @var Enemy $enemy */
         foreach ($enemies as $enemy) {
 
-            $caretaker = new Caretaker($enemy);
-
-            /** @var MementoEnemy $enemySave */
-            $enemySave = $caretaker->save();
-
-            (new SaveEnemy())
-                ->setSaveId($saveId)
-                ->setHp($enemySave->getHp())
-                ->setDamage($enemySave->getDamage())
-                ->setType($enemySave->getType())
-                ->setPositionWidth($enemySave->getPositionWidth())
-                ->setPositionHeight($enemySave->getPositionHeight())
+            (new EnemySave())
+                ->setGameSaveId($saveId)
+                ->setHp($enemy->getHp())
+                ->setDamage($enemy->getDamage())
+                ->setType($enemy->getType())
                 ->save();
         }
     }
+
+    /**
+     * @param int $saveId
+     * @return void
+     */
+    protected function saveBoardPosition(int $saveId): void
+    {
+        $positions = BoardPosition::all();
+
+        /** @var BoardPosition $position */
+        foreach ($positions as $position) {
+            (new BoardPositionSave())
+                ->setEntityId($position->getId())
+                ->setSaveId($saveId)
+                ->setEntityType($position->getEntityType())
+                ->setPositionWidth($position->getPositionWidth())
+                ->setPositionHeight($position->getPositionHeight())
+                ->save();
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function listSaves(): array
+    {
+        $result = [];
+
+        $gameSaves = GameSave::query()->with('savePlayer')->get();
+
+        /** @var GameSave $save */
+        foreach ($gameSaves as $save) {
+            $result[] = ['save' => $save, 'playerSave' => $save->getSavePlayer()];
+        }
+
+        return $result;
+    }
+
+    public function load(int $saveId)
+    {
+        /** @var GameSave $save */
+        if (!$save = GameSave::find($saveId)) {
+            $this->setMessage('Сохранение не найдено');
+            return false;
+        }
+
+
+    }
+
+
 }

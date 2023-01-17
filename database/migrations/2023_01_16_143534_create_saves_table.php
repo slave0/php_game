@@ -13,16 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('saves', function (Blueprint $table) {
+        Schema::create('game_saves', function (Blueprint $table) {
             $table->id();
             $table->integer('board_height');
             $table->integer('board_width');
             $table->timestamps();
         });
 
-        Schema::create('save_players', function (Blueprint $table) {
+        Schema::create('players_save', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('save_id');
+            $table->unsignedBigInteger('game_save_id');
             $table->integer('hp');
             $table->integer('level')->default(1);
             $table->integer('exp')->default(0);
@@ -33,14 +33,24 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('save_enemies', function (Blueprint $table) {
+        Schema::create('enemies_save', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('save_id');
+            $table->unsignedBigInteger('game_save_id');
             $table->string('type');
             $table->integer('hp');
             $table->integer('damage');
             $table->integer('width');
             $table->integer('height');
+            $table->timestamps();
+        });
+
+        Schema::create('board_positions_save', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('game_save_id');
+            $table->integer('entity_id');
+            $table->string('entity_type');
+            $table->integer('position_width');
+            $table->integer('position_height');
             $table->timestamps();
         });
     }

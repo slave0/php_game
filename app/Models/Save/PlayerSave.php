@@ -4,10 +4,11 @@
 namespace App\Models\Save;
 
 use App\Models\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
- * @property int $save_id
+ * @property int $game_save_id
  * @property int $hp
  * @property int $level
  * @property int $exp
@@ -15,9 +16,24 @@ use App\Models\Model;
  * @property string $state
  * @property int $position_width
  * @property int $position_height
+ * @property-read GameSave $gameSave
  */
-class SavePlayer extends Model
+class PlayerSave extends Model
 {
+
+    public function saveGame(): BelongsTo
+    {
+        return $this->belongsTo(GameSave::class, 'game_save_id');
+    }
+
+    /**
+     * @return GameSave
+     */
+    public function getGameSave(): GameSave
+    {
+        return $this->gameSave;
+    }
+
     /**
      * @return int
      */
@@ -28,9 +44,9 @@ class SavePlayer extends Model
 
     /**
      * @param int $id
-     * @return SavePlayer
+     * @return PlayerSave
      */
-    public function setId(int $id): SavePlayer
+    public function setId(int $id): PlayerSave
     {
         $this->id = $id;
         return $this;
@@ -39,18 +55,18 @@ class SavePlayer extends Model
     /**
      * @return int
      */
-    public function getSaveId(): int
+    public function getGameSaveId(): int
     {
-        return $this->save_id;
+        return $this->game_save_id;
     }
 
     /**
-     * @param int $save_id
-     * @return SavePlayer
+     * @param int $game_save_id
+     * @return PlayerSave
      */
-    public function setSaveId(int $save_id): SavePlayer
+    public function setGameSaveId(int $game_save_id): PlayerSave
     {
-        $this->save_id = $save_id;
+        $this->game_save_id = $game_save_id;
         return $this;
     }
 
@@ -64,9 +80,9 @@ class SavePlayer extends Model
 
     /**
      * @param int $hp
-     * @return SavePlayer
+     * @return PlayerSave
      */
-    public function setHp(int $hp): SavePlayer
+    public function setHp(int $hp): PlayerSave
     {
         $this->hp = $hp;
         return $this;
@@ -82,9 +98,9 @@ class SavePlayer extends Model
 
     /**
      * @param int $level
-     * @return SavePlayer
+     * @return PlayerSave
      */
-    public function setLevel(int $level): SavePlayer
+    public function setLevel(int $level): PlayerSave
     {
         $this->level = $level;
         return $this;
@@ -100,9 +116,9 @@ class SavePlayer extends Model
 
     /**
      * @param int $exp
-     * @return SavePlayer
+     * @return PlayerSave
      */
-    public function setExp(int $exp): SavePlayer
+    public function setExp(int $exp): PlayerSave
     {
         $this->exp = $exp;
         return $this;
@@ -118,9 +134,9 @@ class SavePlayer extends Model
 
     /**
      * @param int $damage
-     * @return SavePlayer
+     * @return PlayerSave
      */
-    public function setDamage(int $damage): SavePlayer
+    public function setDamage(int $damage): PlayerSave
     {
         $this->damage = $damage;
         return $this;
@@ -136,9 +152,9 @@ class SavePlayer extends Model
 
     /**
      * @param string $state
-     * @return SavePlayer
+     * @return PlayerSave
      */
-    public function setState(string $state): SavePlayer
+    public function setState(string $state): PlayerSave
     {
         $this->state = $state;
         return $this;
@@ -154,9 +170,9 @@ class SavePlayer extends Model
 
     /**
      * @param int $position_width
-     * @return SavePlayer
+     * @return PlayerSave
      */
-    public function setPositionWidth(int $position_width): SavePlayer
+    public function setPositionWidth(int $position_width): PlayerSave
     {
         $this->position_width = $position_width;
         return $this;
@@ -172,9 +188,9 @@ class SavePlayer extends Model
 
     /**
      * @param int $position_height
-     * @return SavePlayer
+     * @return PlayerSave
      */
-    public function setPositionHeight(int $position_height): SavePlayer
+    public function setPositionHeight(int $position_height): PlayerSave
     {
         $this->position_height = $position_height;
         return $this;

@@ -4,18 +4,33 @@
 namespace App\Models\Save;
 
 use App\Models\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
- * @property int $save_id
+ * @property int $game_save_id
  * @property int $hp
  * @property int $damage
  * @property string type
  * @property int $position_width
  * @property int $position_height
+ * @property-read GameSave $gameSave
  */
-class SaveEnemy extends Model
+class EnemySave extends Model
 {
+    public function saveGame(): BelongsTo
+    {
+        return $this->belongsTo(GameSave::class, 'game_save_id');
+    }
+
+    /**
+     * @return GameSave
+     */
+    public function getGameSave(): GameSave
+    {
+        return $this->gameSave;
+    }
+
     /**
      * @return int
      */
@@ -26,9 +41,9 @@ class SaveEnemy extends Model
 
     /**
      * @param int $id
-     * @return SaveEnemy
+     * @return EnemySave
      */
-    public function setId(int $id): SaveEnemy
+    public function setId(int $id): EnemySave
     {
         $this->id = $id;
         return $this;
@@ -37,18 +52,18 @@ class SaveEnemy extends Model
     /**
      * @return int
      */
-    public function getSaveId(): int
+    public function getGameSaveId(): int
     {
-        return $this->save_id;
+        return $this->game_save_id;
     }
 
     /**
-     * @param int $save_id
-     * @return SaveEnemy
+     * @param int $game_save_id
+     * @return PlayerSave
      */
-    public function setSaveId(int $save_id): SaveEnemy
+    public function setGameSaveId(int $game_save_id): EnemySave
     {
-        $this->save_id = $save_id;
+        $this->game_save_id = $game_save_id;
         return $this;
     }
 
@@ -62,9 +77,9 @@ class SaveEnemy extends Model
 
     /**
      * @param int $hp
-     * @return SaveEnemy
+     * @return EnemySave
      */
-    public function setHp(int $hp): SaveEnemy
+    public function setHp(int $hp): EnemySave
     {
         $this->hp = $hp;
         return $this;
@@ -80,9 +95,9 @@ class SaveEnemy extends Model
 
     /**
      * @param int $damage
-     * @return SaveEnemy
+     * @return EnemySave
      */
-    public function setDamage(int $damage): SaveEnemy
+    public function setDamage(int $damage): EnemySave
     {
         $this->damage = $damage;
         return $this;
@@ -98,9 +113,9 @@ class SaveEnemy extends Model
 
     /**
      * @param string $type
-     * @return SaveEnemy
+     * @return EnemySave
      */
-    public function setType(string $type): SaveEnemy
+    public function setType(string $type): EnemySave
     {
         $this->type = $type;
         return $this;
@@ -116,9 +131,9 @@ class SaveEnemy extends Model
 
     /**
      * @param int $position_width
-     * @return SaveEnemy
+     * @return EnemySave
      */
-    public function setPositionWidth(int $position_width): SaveEnemy
+    public function setPositionWidth(int $position_width): EnemySave
     {
         $this->position_width = $position_width;
         return $this;
@@ -134,9 +149,9 @@ class SaveEnemy extends Model
 
     /**
      * @param int $position_height
-     * @return SaveEnemy
+     * @return EnemySave
      */
-    public function setPositionHeight(int $position_height): SaveEnemy
+    public function setPositionHeight(int $position_height): EnemySave
     {
         $this->position_height = $position_height;
         return $this;

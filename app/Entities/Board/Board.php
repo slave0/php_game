@@ -2,13 +2,16 @@
 
 namespace App\Entities\Board;
 
+use App\Http\Interfaces\Savatable;
+use App\Http\Services\Memento\Memento;
+use App\Http\Services\Memento\MementoBoard;
 use App\Traits\Singleton;
 
-class Board
+class Board implements Savatable
 {
     use Singleton;
 
-    public const MINIMUM_COORDINATE =1;
+    public const MINIMUM_COORDINATE = 1;
 
     protected int $width;
     protected int $height;
@@ -47,5 +50,16 @@ class Board
     {
         $this->height = $height;
         return $this;
+    }
+
+    public function save()
+    {
+        return new MementoBoard($this);
+    }
+
+    public function load(Memento $memento)
+    {
+        $this->height = $memento->getHeight();
+        $this->width = $memento->getWidth();
     }
 }

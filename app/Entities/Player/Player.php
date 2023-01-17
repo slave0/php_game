@@ -3,13 +3,17 @@
 namespace App\Entities\Player;
 
 use App\Http\Interfaces\Entity;
+use App\Http\Interfaces\Savatable;
+use App\Http\Services\Memento\Memento;
+use App\Http\Services\Memento\MementoPlayer;
 use App\Traits\Singleton;
 
-class Player implements Entity
+class Player implements Entity, Savatable
 {
     use Singleton;
 
     const HP = 40;
+
     const DAMAGE = 3;
 
     const DEFAULT_WIDTH = 1;
@@ -161,5 +165,20 @@ class Player implements Entity
     public function down(): void
     {
         $this->setPositionHeight($this->getPositionHeight() + 1);
+    }
+
+    public function save()
+    {
+        return new MementoPlayer($this);
+    }
+
+    public function load(Memento $memento)
+    {
+        $this->hp = $memento->getHp();
+        $this->level = $memento->getLevel();
+        $this->damage = $memento->getLevel();
+        $this->exp = $memento->getExp();
+        $this->positionWidth = $memento->getPositionWidth();
+        $this->positionHeight = $memento->getPositionHeight();
     }
 }

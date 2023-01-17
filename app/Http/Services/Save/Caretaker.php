@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Services\Save;
 
-use App\Entities\Entity;
+use App\Entities\Board\Board;
+use App\Http\Interfaces\Entity;
 
 class Caretaker
 {
@@ -16,7 +17,7 @@ class Caretaker
      */
     private Entity $entity;
 
-    public function __construct(Entity $entity)
+    public function __construct(Entity|Board $entity)
     {
         $this->entity = $entity;
     }

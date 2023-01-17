@@ -3,11 +3,16 @@
 namespace App\Entities\Enemy;
 
 use App\Http\Interfaces\Entity;
+use App\Http\Interfaces\Savatable;
+use App\Http\Services\Memento\Memento;
+use App\Http\Services\Memento\MementoEnemy;
 
-class Enemy implements Entity
+class Enemy implements Entity, Savatable
 {
     const TYPE_OGR = 'Огр';
+
     const TYPE_MAG = 'Маг';
+
     const TYPE_PANGOLIN = 'Ящер';
 
     const ENEMY_HP = 10;
@@ -21,11 +26,17 @@ class Enemy implements Entity
     ];
 
     protected int $id;
+
     protected string $type;
+
     protected string $name;
+
     protected int $hp;
+
     protected int $damage;
+
     protected int $positionWidth;
+
     protected int $positionHeight;
 
     /**
@@ -184,5 +195,28 @@ class Enemy implements Entity
     public function down(): void
     {
         $this->setPositionHeight($this->getPositionHeight() + 1);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function save()
+    {
+        return new MementoEnemy($this);
+    }
+
+    /**
+     * @param Memento $memento
+     * @return mixed
+     */
+    public function load(Memento $memento)
+    {
+        $this->id = $memento->getId()();
+        $this->type = $memento->getType();
+        $this->name = $memento->getName();
+        $this->hp = $memento->getHp();
+        $this->damage = $memento->getDamage();
+        $this->positionWidth = $memento->getPositionWidth();
+        $this->positionHeight = $memento->getPositionHeight();
     }
 }

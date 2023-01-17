@@ -35,8 +35,8 @@ class NewGame
         (new BoardPosition())
             ->setEntityId($player->getId())
             ->setEntityType($player->getMorphClass())
-            ->setWidth(PlayerEntity::DEFAULT_WIDTH)
-            ->setHeight(PlayerEntity::DEFAULT_HEIGHT)
+            ->setPositionWidth(PlayerEntity::DEFAULT_WIDTH)
+            ->setPositionHeight(PlayerEntity::DEFAULT_HEIGHT)
             ->save();
     }
 
@@ -86,8 +86,8 @@ class NewGame
         (new BoardPosition())
             ->setEntityId($enemy->getId())
             ->setEntityType($enemy->getMorphClass())
-            ->setWidth($width)
-            ->setHeight($height)
+            ->setPositionWidth($width)
+            ->setPositionHeight($height)
             ->save();
     }
 
@@ -102,7 +102,7 @@ class NewGame
         if ($positions) {
 
             $arrayPositions = $positions->map(function (BoardPosition $position) {
-                return $position->getHeight();
+                return $position->getPositionHeight();
             })->toArray();
 
             $height = $this->faker->numberBetween($min, $max);

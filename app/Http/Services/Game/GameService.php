@@ -37,8 +37,8 @@ class GameService
             ->setLevel($player->getLevel())
             ->setExp($player->getExp())
             ->setDamage($player->getDamage())
-            ->setPositionWidth($position->getWidth())
-            ->setPositionHeight($position->getHeight());
+            ->setPositionWidth($position->getPositionWidth())
+            ->setPositionHeight($position->getPositionHeight());
     }
 
     protected function getBoard(): void
@@ -65,8 +65,8 @@ class GameService
                 ->setType($enemy->getType())
                 ->setHp($enemy->getHp())
                 ->setDamage($enemy->getDamage())
-                ->setPositionWidth($position->getWidth())
-                ->setPositionHeight($position->getHeight());
+                ->setPositionWidth($position->getPositionWidth())
+                ->setPositionHeight($position->getPositionHeight());
 
         })->toArray();
 

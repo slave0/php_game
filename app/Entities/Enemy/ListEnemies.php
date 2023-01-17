@@ -7,6 +7,7 @@ use App\Traits\Singleton;
 class ListEnemies
 {
     use Singleton;
+
     protected array $enemies;
 
     /**

@@ -80,8 +80,8 @@ class SaveEntities
     protected function savePosition(Enemy|Player $model, EntityPlayer|EntityEnemy $entity): void
     {
         $model->getBoardPosition()
-            ->setWidth($entity->getPositionWidth())
-            ->setHeight($entity->getPositionHeight())
+            ->setPositionWidth($entity->getPositionWidth())
+            ->setPositionHeight($entity->getPositionHeight())
             ->save();
     }
 }

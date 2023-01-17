@@ -6,8 +6,8 @@ namespace App\Models;
  * @property int $id
  * @property int $entity_id
  * @property string $entity_type
- * @property int $width
- * @property int $height
+ * @property int $position_width
+ * @property int $position_height
  */
 class BoardPosition extends Model
 {
@@ -74,36 +74,36 @@ class BoardPosition extends Model
     /**
      * @return int
      */
-    public function getWidth(): int
+    public function getPositionWidth(): int
     {
-        return $this->width;
+        return $this->position_width;
     }
 
     /**
-     * @param int $width
+     * @param int $position_width
      * @return BoardPosition
      */
-    public function setWidth(int $width): BoardPosition
+    public function setPositionWidth(int $position_width): BoardPosition
     {
-        $this->width = $width;
+        $this->position_width = $position_width;
         return $this;
     }
 
     /**
      * @return int
      */
-    public function getHeight(): int
+    public function getPositionHeight(): int
     {
-        return $this->height;
+        return $this->position_height;
     }
 
     /**
-     * @param int $height
+     * @param int $position_height
      * @return BoardPosition
      */
-    public function setHeight(int $height): BoardPosition
+    public function setPositionHeight(int $position_height): BoardPosition
     {
-        $this->height = $height;
+        $this->position_height = $position_height;
         return $this;
     }
 }

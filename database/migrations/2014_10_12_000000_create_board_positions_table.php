@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->integer('entity_id');
             $table->string('entity_type');
-            $table->integer('width');
-            $table->integer('height');
+            $table->integer('position_width');
+            $table->integer('position_height');
             $table->timestamps();
         });
     }

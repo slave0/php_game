@@ -2,25 +2,32 @@
 
 namespace App\Http\Services\Memento;
 
-use App\Entities\Entity;
-use App\Entities\Player\Player;
-use App\State\State;
+
+
+use App\Entities\Board\Board;
+use App\Http\Interfaces\Entity;
 
 class MementoPlayer implements Memento
 {
     protected int $hp;
     protected int $level;
-    protected ?array $way;
-    protected State $state;
-    protected float|int $damage;
+    protected mixed $damage;
+    protected int $exp;
+    protected int $positionWidth;
+    protected int $positionHeight;
 
-    public function __construct(Entity|Player $player)
+    /**
+     * MementoPlayer constructor.
+     * @param Entity|Board $player
+     */
+    public function __construct(Entity|Board $player)
     {
         $this->hp = $player->getHp();
         $this->level = $player->getLevel();
-        $this->way = $player->getWay();
-        $this->state = $player->getState();
-        $this->damage = $player->getDamage();
+        $this->damage = $player->getLevel();
+        $this->exp = $player->getExp();
+        $this->positionWidth = $player->getPositionWidth();
+        $this->positionHeight = $player->getPositionHeight();
     }
 
     /**
@@ -32,6 +39,16 @@ class MementoPlayer implements Memento
     }
 
     /**
+     * @param int $hp
+     * @return MementoPlayer
+     */
+    public function setHp(int $hp): MementoPlayer
+    {
+        $this->hp = $hp;
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getLevel(): int
@@ -40,19 +57,13 @@ class MementoPlayer implements Memento
     }
 
     /**
-     * @return array|null
+     * @param int $level
+     * @return MementoPlayer
      */
-    public function getWay(): ?array
+    public function setLevel(int $level): MementoPlayer
     {
-        return $this->way;
-    }
-
-    /**
-     * @return State
-     */
-    public function getState(): State
-    {
-        return $this->state;
+        $this->level = $level;
+        return $this;
     }
 
     /**
@@ -61,5 +72,69 @@ class MementoPlayer implements Memento
     public function getDamage(): mixed
     {
         return $this->damage;
+    }
+
+    /**
+     * @param mixed $damage
+     * @return MementoPlayer
+     */
+    public function setDamage(mixed $damage): MementoPlayer
+    {
+        $this->damage = $damage;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getExp(): int
+    {
+        return $this->exp;
+    }
+
+    /**
+     * @param int $exp
+     * @return MementoPlayer
+     */
+    public function setExp(int $exp): MementoPlayer
+    {
+        $this->exp = $exp;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPositionWidth(): int
+    {
+        return $this->positionWidth;
+    }
+
+    /**
+     * @param int $positionWidth
+     * @return MementoPlayer
+     */
+    public function setPositionWidth(int $positionWidth): MementoPlayer
+    {
+        $this->positionWidth = $positionWidth;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPositionHeight(): int
+    {
+        return $this->positionHeight;
+    }
+
+    /**
+     * @param int $positionHeight
+     * @return MementoPlayer
+     */
+    public function setPositionHeight(int $positionHeight): MementoPlayer
+    {
+        $this->positionHeight = $positionHeight;
+        return $this;
     }
 }

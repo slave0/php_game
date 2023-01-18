@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\PlayerController;
+use App\Http\Controllers\SaveController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +21,12 @@ Route::get('/', [GameController::class, 'index']);
 Route::get('/game', [GameController::class, 'start']);
 
 Route::post('/move', [PlayerController::class, 'move']);
+
+Route::post('/save', [SaveController::class, 'save']);
+
+Route::get('/save', [SaveController::class, 'getSaves']);
+
+Route::post('/load', [SaveController::class, 'load']);
 
 Route::post('/a', function () {
     return 1;

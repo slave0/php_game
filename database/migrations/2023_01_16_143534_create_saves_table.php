@@ -43,16 +43,6 @@ return new class extends Migration
             $table->integer('height');
             $table->timestamps();
         });
-
-        Schema::create('board_positions_save', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('game_save_id');
-            $table->integer('entity_id');
-            $table->string('entity_type');
-            $table->integer('position_width');
-            $table->integer('position_height');
-            $table->timestamps();
-        });
     }
 
     /**

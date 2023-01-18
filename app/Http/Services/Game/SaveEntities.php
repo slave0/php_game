@@ -42,15 +42,15 @@ class SaveEntities
 
         /** @var Player $playerModel */
         $playerModel = Player::query()->get()->first();
+
         $playerModel
             ->setHp($player->getHp())
             ->setDamage($player->getDamage())
             ->setExp($player->getExp())
-            ->setLevel($player->getLevel());
-
-        $playerModel->save();
-
-        $this->savePosition($playerModel, $player);
+            ->setLevel($player->getLevel())
+            ->setPositionWidth($player->getPositionWidth())
+            ->setPositionHeight($player->getPositionHeight())
+            ->save();
     }
 
     /**
@@ -63,25 +63,13 @@ class SaveEntities
         /** @var EntityEnemy $enemy */
         foreach ($enemies as $enemy) {
             $enemyModel = Enemy::find($enemy->getId());
-            $enemyModel->update([
+            $enemyModel->update(
+                [
                     'hp'=> $enemy->getHp(),
-                    'damage' => $enemy->getDamage()
+                    'damage' => $enemy->getDamage(),
+                    'position_width' => $enemy->getPositionWidth(),
+                    'position_height' => $enemy->getPositionHeight()
                 ]);
-
-            $this->savePosition($enemyModel, $enemy);
         }
-    }
-
-    /**
-     * @param Enemy|Player $model
-     * @param EntityPlayer|EntityEnemy $entity
-     * @return void
-     */
-    protected function savePosition(Enemy|Player $model, EntityPlayer|EntityEnemy $entity): void
-    {
-        $model->getBoardPosition()
-            ->setPositionWidth($entity->getPositionWidth())
-            ->setPositionHeight($entity->getPositionHeight())
-            ->save();
     }
 }

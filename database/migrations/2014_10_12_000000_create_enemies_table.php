@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('type');
             $table->integer('hp');
             $table->integer('damage');
+            $table->integer('position_width');
+            $table->integer('position_height');
             $table->timestamps();
         });
     }

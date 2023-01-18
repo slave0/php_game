@@ -4,12 +4,12 @@ namespace App\Http\Services\Game;
 
 
 use App\Models\Board;
-use App\Models\BoardPosition;
 use App\Models\Enemy;
 use App\Models\Player;
 use App\Entities\Player\Player as PlayerEntity;
 use App\Entities\Enemy\Enemy as EnemyEntity;
 use Faker\Generator;
+use App\Entities\Board\Board as BoardEntity;
 
 class NewGame
 {
@@ -27,14 +27,9 @@ class NewGame
      */
     protected function newPlayer(): void
     {
-        $player = (new Player())
+        (new Player())
             ->setHp(PlayerEntity::HP)
-            ->setDamage(PlayerEntity::DAMAGE);
-        $player->save();
-
-        (new BoardPosition())
-            ->setEntityId($player->getId())
-            ->setEntityType($player->getMorphClass())
+            ->setDamage(PlayerEntity::DAMAGE)
             ->setPositionWidth(PlayerEntity::DEFAULT_WIDTH)
             ->setPositionHeight(PlayerEntity::DEFAULT_HEIGHT)
             ->save();
@@ -61,60 +56,39 @@ class NewGame
         $board = Board::query()->get()->first();
 
         for ($i = 1; $i < $repeat; $i++) {
-            $enemy = (new Enemy())
+
+            [$width, $height] = $this->generatePositions($board->getWidth());
+
+            (new Enemy())
                 ->setType($this->faker->randomElement(EnemyEntity::TYPES_ENEMIES))
                 ->setHp(EnemyEntity::ENEMY_HP)
-                ->setDamage(EnemyEntity::ENEMY_DAMAGE);
-            $enemy->save();
+                ->setDamage(EnemyEntity::ENEMY_DAMAGE)
+                ->setPositionWidth($width)
+                ->setPositionHeight($height)
+                ->save();
 
-            $this->setEnemyPosition($enemy, $board->getWidth());
         }
     }
 
     /**
-     * @param Enemy $enemy
      * @param int $max
      * @param int $min
-     * @return void
+     * @return array
      */
-    protected function setEnemyPosition(Enemy $enemy, int $max, int $min = 1): void
+    protected function generatePositions(int $max, int $min = BoardEntity::MINIMUM_COORDINATE): array
     {
         $width = $this->faker->numberBetween($min , $max);
-        $positions = BoardPosition::query()->where('width', $width)->get();
-        $height = $this->getHeight($positions, $max, $min);
 
-        (new BoardPosition())
-            ->setEntityId($enemy->getId())
-            ->setEntityType($enemy->getMorphClass())
-            ->setPositionWidth($width)
-            ->setPositionHeight($height)
-            ->save();
-    }
+        $height = $this->faker->numberBetween($min, $max);
 
-    /**
-     * @param $positions
-     * @param int $max
-     * @param int $min
-     * @return int
-     */
-    protected function getHeight($positions, int $max, int $min): int
-    {
-        if ($positions) {
+        $enemyPosition = Enemy::query()->where('position_width', $width)->exists();
 
-            $arrayPositions = $positions->map(function (BoardPosition $position) {
-                return $position->getPositionHeight();
-            })->toArray();
+        $playerPosition = Player::query()->where('position_width', $width)->exists();
 
-            $height = $this->faker->numberBetween($min, $max);
-
-            if (in_array($height, $arrayPositions)) {
-                $height = $this->getHeight($positions, $max, $min);
-            }
-
-        } else {
-            $height = $this->faker->numberBetween($min, $max);
+        if ($enemyPosition || $playerPosition) {
+            return $this->generatePositions($max);
         }
 
-        return $height;
+        return [$width, $height];
     }
 }

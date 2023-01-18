@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  * @property int $exp
  * @property int $damage
  * @property string $state
+ * @property int $position_width
+ * @property int $position_height
  * @property-read BoardPosition $boardPosition
  */
 class Player extends Model
@@ -133,6 +135,42 @@ class Player extends Model
     public function setState(string $state): Player
     {
         $this->state = $state;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPositionWidth(): int
+    {
+        return $this->position_width;
+    }
+
+    /**
+     * @param int $position_width
+     * @return Player
+     */
+    public function setPositionWidth(int $position_width): Player
+    {
+        $this->position_width = $position_width;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPositionHeight(): int
+    {
+        return $this->position_height;
+    }
+
+    /**
+     * @param int $position_height
+     * @return Player
+     */
+    public function setPositionHeight(int $position_height): Player
+    {
+        $this->position_height = $position_height;
         return $this;
     }
 }

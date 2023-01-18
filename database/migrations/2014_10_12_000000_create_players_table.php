@@ -20,6 +20,8 @@ return new class extends Migration
             $table->integer('exp')->default(0);
             $table->integer('damage');
             $table->string('state')->nullable();
+            $table->integer('position_width');
+            $table->integer('position_height');
             $table->timestamps();
         });
     }

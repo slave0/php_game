@@ -9,7 +9,6 @@ use App\Entities\Enemy\Enemy;
 use App\Entities\Enemy\ListEnemies;
 use App\Entities\Player\Player;
 use App\Models\BoardPosition;
-use App\Models\Save\BoardPositionSave;
 use App\Models\Save\GameSave;
 use App\Models\Save\EnemySave;
 use App\Models\Save\PlayerSave;
@@ -33,7 +32,6 @@ class SaveService
             $saveId = $this->saveBoard();
             $this->savePlayer($saveId);
             $this->saveEnemies($saveId);
-            $this->saveBoardPosition($saveId);
 
         } catch (\Exception $ex) {
             DB::rollBack();
@@ -98,26 +96,8 @@ class SaveService
                 ->setHp($enemy->getHp())
                 ->setDamage($enemy->getDamage())
                 ->setType($enemy->getType())
-                ->save();
-        }
-    }
-
-    /**
-     * @param int $saveId
-     * @return void
-     */
-    protected function saveBoardPosition(int $saveId): void
-    {
-        $positions = BoardPosition::all();
-
-        /** @var BoardPosition $position */
-        foreach ($positions as $position) {
-            (new BoardPositionSave())
-                ->setEntityId($position->getId())
-                ->setSaveId($saveId)
-                ->setEntityType($position->getEntityType())
-                ->setPositionWidth($position->getPositionWidth())
-                ->setPositionHeight($position->getPositionHeight())
+                ->setPositionWidth($enemy->getPositionWidth())
+                ->setPositionHeight($enemy->getPositionHeight())
                 ->save();
         }
     }

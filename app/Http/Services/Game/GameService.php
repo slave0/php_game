@@ -32,26 +32,23 @@ class GameService
     {
         /** @var \App\Models\Player $player */
         $player = \App\Models\Player::query()->get()->first();
-        /** @var BoardPosition $position */
-        $position = $player->boardPosition()->get()->first();
 
-        self::setPlayer($player, $position);
+        self::setPlayer($player);
     }
 
     /**
      * @param \App\Models\Player|PlayerSave $player
-     * @param BoardPosition|BoardPositionSave $position
      * @return void
      */
-    public static function setPlayer(\App\Models\Player|PlayerSave $player, BoardPosition|BoardPositionSave $position): void
+    public static function setPlayer(\App\Models\Player|PlayerSave $player): void
     {
         Player::getInstance()
             ->setHp($player->getHp())
             ->setLevel($player->getLevel())
             ->setExp($player->getExp())
             ->setDamage($player->getDamage())
-            ->setPositionWidth($position->getPositionWidth())
-            ->setPositionHeight($position->getPositionHeight());
+            ->setPositionWidth($player->getPositionWidth())
+            ->setPositionHeight($player->getPositionHeight());
     }
 
     protected function getBoard(): void
@@ -77,10 +74,7 @@ class GameService
     {
         $enemies = Enemy::query()->get()->map(function (Enemy $enemy) {
 
-            /** @var BoardPosition $position */
-            $position = $enemy->boardPosition()->get()->first();
-
-            return self::setEnemies($enemy, $position);
+            return self::setEnemies($enemy);
 
         })->toArray();
 
@@ -89,17 +83,16 @@ class GameService
 
     /**
      * @param $enemy
-     * @param BoardPosition|BoardPositionSave $position
      * @return \App\Entities\Enemy\Enemy
      */
-    public static function setEnemies($enemy, BoardPosition|BoardPositionSave $position): \App\Entities\Enemy\Enemy
+    public static function setEnemies($enemy): \App\Entities\Enemy\Enemy
     {
         return (new \App\Entities\Enemy\Enemy())
             ->setId($enemy->getId())
             ->setType($enemy->getType())
             ->setHp($enemy->getHp())
             ->setDamage($enemy->getDamage())
-            ->setPositionWidth($position->getPositionWidth())
-            ->setPositionHeight($position->getPositionHeight());
+            ->setPositionWidth($enemy->getPositionWidth())
+            ->setPositionHeight($enemy->getPositionHeight());
     }
 }

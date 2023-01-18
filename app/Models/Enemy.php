@@ -7,6 +7,8 @@ namespace App\Models;
  * @property string $type
  * @property int $hp
  * @property int $damage
+ * @property int $position_width
+ * @property int $position_height
  * @property-read BoardPosition $boardPosition
  */
 class Enemy extends Model
@@ -93,6 +95,42 @@ class Enemy extends Model
     public function setDamage(int $damage): Enemy
     {
         $this->damage = $damage;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPositionWidth(): int
+    {
+        return $this->position_width;
+    }
+
+    /**
+     * @param int $position_width
+     * @return Enemy
+     */
+    public function setPositionWidth(int $position_width): Enemy
+    {
+        $this->position_width = $position_width;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPositionHeight(): int
+    {
+        return $this->position_height;
+    }
+
+    /**
+     * @param int $position_height
+     * @return Enemy
+     */
+    public function setPositionHeight(int $position_height): Enemy
+    {
+        $this->position_height = $position_height;
         return $this;
     }
 }
